@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melody Matcha - Bollywood Memory Game</title>
+    <link rel="stylesheet" href="h1-styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-btn">Home</a>
+    
+    <div class="game-container">
+        <div class="side-panel">
+            <div class="panel-title">GAME STATS</div>
+            <div class="stat-item">
+                <div class="stat-label">TIME</div>
+                <div class="stat-value" id="timer">00:00</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">MOVES</div>
+                <div class="stat-value" id="moves">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">MATCHES</div>
+                <div class="stat-value" id="matches">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">PAIRS LEFT</div>
+                <div class="stat-value" id="remaining">18</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">HINTS LEFT</div>
+                <div class="stat-value" id="hintsLeft">2</div>
+            </div>
+        </div>
+        
+        <div class="game-center">
+            <div class="game-title">MELODY MATCHA</div>
+            <div class="game-board" id="gameBoard"></div>
+        </div>
+        
+        <div class="side-panel">
+            <div class="panel-title">CONTROLS</div>
+            <button class="control-btn" onclick="newGame()">New Game</button>
+            <button class="control-btn" onclick="pauseGame()" id="pauseBtn">Pause</button>
+            <button class="control-btn" onclick="resetGame()">Reset</button>
+            <button class="control-btn" id="hintBtn" onclick="useHint()">Hint</button>
+            <div class="level-display">LEVEL: BOLLYWOOD</div>
+        </div>
+    </div>
+    
+    <div class="game-over" id="gameOver">
+        <h2>GAME COMPLETE!</h2>
+        <p>Time: <span id="finalTime"></span></p>
+        <p>Moves: <span id="finalMoves"></span></p>
+        <p>Hints Used: <span id="finalHints"></span></p>
+        <br>
+        <button class="control-btn" onclick="newGame()">Play Again</button>
+        <button class="control-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+
+    <script src="h1-index.js"></script>
+</body>
+</html>
