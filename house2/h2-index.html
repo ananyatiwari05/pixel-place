@@ -1,472 +1,477 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cake Factory - House 2</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cake Factory - House 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        image-rendering: pixelated; /* Apply pixelation to all images */
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+    }
 
-        body {
-            font-family: "VT323", monospace;
-            font-weight: 400;
-            color: #ffffff;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            position: relative;
-            background: linear-gradient(180deg, #ff9999 0%, #ffb3b3 50%, #ff8080 100%);
-        }
+    body {
+        font-family: "VT323", monospace;
+        font-weight: 400;
+        color: #ffffff;
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        position: relative;
+        /* Heavy pixelated background - solid color as per image */
+        background: linear-gradient(180deg, #ff9999 0%, #ff9999 33%, #ffb3b3 33%, #ffb3b3 66%, #ff8080 66%, #ff8080 100%);
+        image-rendering: pixelated; /* Ensure body also gets pixelation for overall effect */
+    }
 
-        /* Kitchen Background Recreation */
-        .kitchen-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+    /* Kitchen Background Recreation */
+    .kitchen-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
 
-        /* Top Wall */
-        .top-wall {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 35%;
-            background: linear-gradient(180deg, #ff9999 0%, #ffb3b3 100%);
-            border-bottom: 3px solid #666;
-        }
+    /* Top Wall */
+    .top-wall {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 35%;
+        /* Heavy pixelated background - solid color as per image */
+        background: linear-gradient(180deg, #ff9999 0%, #ff9999 50%, #ffb3b3 50%, #ffb3b3 100%);
+        border-bottom: 3px solid #666;
+        box-shadow: 0 2px 0 #333; /* Pixelated shadow for borders */
+    }
 
-        /* Conveyor Belt */
-        .conveyor-belt {
-            position: absolute;
-            top: 35%;
-            left: 0;
-            width: 100%;
-            height: 25%;
-            background: linear-gradient(180deg, #888 0%, #666 50%, #444 100%);
-            border-top: 2px solid #aaa;
-            border-bottom: 2px solid #222;
-        }
+    /* Conveyor Belt */
+    .conveyor-belt {
+        position: absolute;
+        top: 35%;
+        left: 0;
+        width: 100%;
+        height: 25%;
+        /* Heavy pixelated background - solid color as per image */
+        background: linear-gradient(180deg, #888 0%, #888 33%, #666 33%, #666 66%, #444 66%, #444 100%);
+        border-top: 2px solid #aaa;
+        border-bottom: 2px solid #222;
+        box-shadow: 0 2px 0 #333; /* Pixelated shadow for borders */
+    }
 
-        .conveyor-track {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: repeating-linear-gradient(90deg, #333 0px, #333 20px, #555 20px, #555 40px);
-            transform: translateY(-50%);
-        }
+    .conveyor-track {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: repeating-linear-gradient(90deg, #333 0px, #333 20px, #555 20px, #555 40px);
+        transform: translateY(-50%);
+        box-shadow: 0 1px 0 #000; /* Pixelated shadow */
+    }
 
-        /* Bottom Control Area */
-        .control-area {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            background: linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
-            border-top: 3px solid #999;
-        }
+    /* Bottom Control Area */
+    .control-area {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 40%; /* Reverted to 40% to match original layout */
+        /* Heavy pixelated background - solid color as per image */
+        background: linear-gradient(180deg, #f3cff3 0%, #f8b9f8 30%, #f6a1f6  60%, #f6e4f6  84%, #ffffff  100%);
+        border-top: 3px solid #999;
+        box-shadow: 0 -2px 0 #666; /* Pixelated shadow for borders */
+    }
 
-        /* Checkered Floor */
-        .checkered-floor {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 15%;
-            background-image: 
-                linear-gradient(45deg, #000 25%, transparent 25%), 
-                linear-gradient(-45deg, #000 25%, transparent 25%), 
-                linear-gradient(45deg, transparent 75%, #000 75%), 
-                linear-gradient(-45deg, transparent 75%, #000 75%);
-            background-size: 30px 30px;
-            background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
-        }
+    /* Checkered Floor - Shifted below ingredient grid */
+    .checkered-floor {
+        position: absolute;
+        bottom: 0; /* Position at the very bottom of the control area */
+        left: 0;
+        width: 100%;
+        height: 10%; /* Increased height to be visible behind grid */
+        background-image: 
+            linear-gradient(45deg, #000 25%, transparent 25%), 
+            linear-gradient(-45deg, #000 25%, transparent 25%), 
+            linear-gradient(45deg, transparent 75%, #000 75%), 
+            linear-gradient(-45deg, transparent 75%, #000 75%);
+        background-size: 30px 30px;
+        background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+        box-shadow: inset 0 2px 0 #333; /* Pixelated shadow */
+    }
 
-        .back-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: linear-gradient(145deg, #da70d6, #ba55d3);
-            border: 2px solid #ff69b4;
-            border-radius: 6px;
-            color: #ffffff;
-            font-family: 'VT323', monospace;
-            font-size: 12px;
-            font-weight: 400;
-            padding: 5px 10px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 0 2px 0 #8b008b;
-            z-index: 1000;
-        }
+    .back-btn {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: linear-gradient(145deg, #da70d6, #ba55d3);
+        border: 2px solid #ff69b4;
+        border-radius: 6px;
+        color: #ffffff;
+        font-family: 'VT323', monospace;
+        font-size: 12px;
+        font-weight: 400;
+        padding: 5px 10px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 2px 0 #8b008b;
+        z-index: 1000;
+        text-shadow: 1px 1px 0 #000; /* Pixelated text shadow */
+    }
 
-        .back-btn:hover {
-            background: linear-gradient(145deg, #ba55d3, #da70d6);
-            transform: translateY(-1px);
-            box-shadow: 0 3px 0 #8b008b;
-        }
+    .back-btn:hover {
+        background: linear-gradient(145deg, #ba55d3, #da70d6);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 0 #8b008b;
+    }
 
-        /* Game Stats Panel */
-        .stats-panel {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid #00ffff;
-            border-radius: 6px;
-            padding: 8px;
-            color: #ffffff;
-            font-size: 12px;
-            z-index: 1000;
-            min-width: 120px;
-        }
+    /* Game Stats Panel */
+    .stats-panel {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.9);
+        border: 2px solid #00ffff;
+        border-radius: 6px;
+        padding: 8px;
+        color: #ffffff;
+        font-size: 12px;
+        z-index: 1000;
+        min-width: 120px;
+        box-shadow: 0 2px 0 #008080; /* Pixelated shadow */
+    }
 
-        .stat-item {
-            margin-bottom: 3px;
-            display: flex;
-            justify-content: space-between;
-        }
+    .stat-item {
+        margin-bottom: 3px;
+        display: flex;
+        justify-content: space-between;
+        text-shadow: 1px 1px 0 #000; /* Pixelated text shadow */
+    }
 
-        /* Order Display - Left Monitor */
-        .order-display {
-            position: absolute;
-            top: 8%;
-            left: 2%;
-            width: 12%;
-            height: 20%;
-            background: linear-gradient(145deg, #e6e6ff, #ccccff);
-            border: 3px solid #4444aa;
-            border-radius: 8px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
+    /* Order Display - Left Monitor */
+    .order-display {
+        position: absolute;
+        top: 8%;
+        left: 2%;
+        width: 12%;
+        height: 20%;
+        background: linear-gradient(145deg, #e6e6ff, #ccccff);
+        border: 3px solid #4444aa;
+        border-radius: 8px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
 
-        .order-title {
-            color: #000080;
-            font-size: 10px;
-            margin-bottom: 5px;
-            text-align: center;
-            font-weight: bold;
-        }
+    .order-title {
+        color: #000080;
+        font-size: 15px;
+        margin-bottom: 5px;
+        text-align: center;
+        font-weight: bold;
+        text-shadow: 1px 1px 0 #fff; /* Pixelated text shadow */
+    }
 
-        .order-stack {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            justify-content: flex-end;
-            gap: 0;
-            position: relative;
-        }
+    .order-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        justify-content: flex-end;
+        gap: 0;
+        position: relative;
+        padding-bottom: 10px;
+    }
 
-        .order-item {
-            width: 35px;
-            height: 35px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            position: relative;
-        }
+    .order-item {
+        width: 100px; /* Further increased size */
+        height: 60px; /* Further increased size */
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+        margin-top: -25px; /* Adjusted negative margin for more overlap */
+    }
+    .order-item:first-child {
+        margin-top: 0; /* No negative margin for the very first item (bottom) */
+    }
+    /* Specific adjustment for topping in order display */
+    .order-item.topping-layer {
+        margin-top: -4px; /* Less negative margin for topping to sit higher */
+    }
 
-        /* Conveyor Work Stations */
-        .conveyor-stations {
-            position: absolute;
-            top: 37%;
-            left: 15%;
-            width: 70%;
-            height: 20%;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
 
-        .work-station {
-            width: 18%;
-            height: 90%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            position: relative;
-            padding: 5px;
-        }
+    /* Conveyor Work Stations */
+    .conveyor-stations {
+        position: absolute;
+        top: 37%;
+        left: 15%;
+        width: 70%;
+        height: 20%; /* Slightly increased height to accommodate larger desserts */
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .work-station.active {
-            border-color: #ff69b4;
-            background: rgba(255, 105, 180, 0.2);
-            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-        }
+    .work-station {
+        width: 18%;
+        height: 90%; /* Ensure work station uses full height of conveyor-stations */
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid transparent;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        position: relative;
+        padding: 5px;
+    }
 
-        .dessert-stack {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            height: 100%;
-            gap: 0;
-            position: relative;
-        }
+    .work-station.active {
+        border-color: #ff69b4;
+        background: rgba(255, 105, 180, 0.2);
+        box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    }
 
-        .dessert-layer {
-            width: 40px;
-            height: 40px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            position: relative;
-            z-index: 1;
-        }
+    .dessert-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        height: 100%;
+        gap: 0;
+        position: relative;
+    }
 
-        /* Conveyor Controls */
-        .conveyor-controls {
-            position: absolute;
-            top: 60%;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 1000;
-        }
+    .dessert-layer {
+        width: 90px; /* Further increased size */
+        height: 70px; /* Further increased size */
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+        z-index: 1;
+        margin-top: -30px; /* Adjusted negative margin for more overlap */
+    }
+    .dessert-layer:first-child {
+        margin-top: 0; /* No negative margin for the very first item (bottom) */
+    }
+    /* Specific adjustment for topping on conveyor */
+    .dessert-layer.topping-layer {
+        margin-top: -10px; /* Less negative margin for topping to sit higher */
+    }
 
-        .move-btn {
-            background: linear-gradient(145deg, #4CAF50, #45a049);
-            border: 3px solid #2E7D32;
-            border-radius: 50%;
-            color: #ffffff;
-            font-family: 'VT323', monospace;
-            font-size: 24px;
-            font-weight: bold;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 0 #1B5E20;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
+    /* Ingredient Selection Grid */
+    .ingredient-grid {
+        position: absolute;
+        bottom: 25%; /* Adjusted to sit correctly above the checkered floor */
+        left: 15%;
+        width: 70%;
+        height: 15%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 8px;
+        z-index: 1000;
+    }
 
-        .move-btn:hover {
-            background: linear-gradient(145deg, #45a049, #4CAF50);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 0 #1B5E20;
-        }
+    .ingredient-btn {
+        background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+        border: 3px solid #999;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        position: relative;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
 
-        .move-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 0 #1B5E20;
-        }
+    .ingredient-btn img {
+        width: 70px; /* Increased size for better visibility */
+        height: 70px; /* Increased size for better visibility */
+        object-fit: contain;
+    }
+    /* Specific size for cherry image */
+    .ingredient-btn img[alt="Cherry"] {
+        width: 40px; /* Smaller cherry */
+        height: 40px; /* Smaller cherry */
+    }
 
-        .move-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            opacity: 0.6;
-            transform: none;
-            box-shadow: 0 2px 0 #333;
-        }
+    .ingredient-btn:hover {
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
 
-        /* Ingredient Selection Grid */
+    .ingredient-btn.selected {
+        background: linear-gradient(145deg, #ffb3ff, #ff99ff);
+        border-color: #ff69b4;
+        box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+    }
+
+    /* Control Buttons */
+    .control-buttons {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        z-index: 1000;
+    }
+
+    .control-btn {
+        background: linear-gradient(145deg, #da70d6, #ba55d3);
+        border: 2px solid #ff69b4;
+        border-radius: 6px;
+        color: #ffffff;
+        font-family: 'VT323', monospace;
+        font-size: 14px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 3px 0 #8b008b;
+        text-shadow: 1px 1px 0 #000; /* Pixelated text shadow */
+    }
+
+    .control-btn:hover {
+        background: linear-gradient(145deg, #ba55d3, #da70d6);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 0 #8b008b;
+    }
+
+    .control-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 0 #8b008b;
+    }
+
+    .control-btn:disabled {
+        background: #666;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    /* Game Over Modal */
+    .game-over {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(145deg, #4a2c5a, #3a1e4a);
+        border: 4px solid #ba55d3;
+        border-radius: 12px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 0 25px rgba(186, 85, 211, 0.6);
+        z-index: 2000;
+        display: none;
+    }
+
+    .game-over h2 {
+        color: #da70d6;
+        font-size: 20px;
+        margin-bottom: 12px;
+        text-shadow: 2px 2px 0 #000; /* Pixelated text shadow */
+    }
+
+    .game-over p {
+        font-size: 14px;
+        margin-bottom: 6px;
+        text-shadow: 1px 1px 0 #000; /* Pixelated text shadow */
+    }
+
+    /* Feedback Messages */
+    .feedback {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.95);
+        color: #ffffff;
+        padding: 12px 25px;
+        border-radius: 6px;
+        font-size: 16px;
+        z-index: 1500;
+        display: none;
+        text-align: center;
+        text-shadow: 1px 1px 0 #000; /* Pixelated text shadow */
+    }
+
+    .feedback.success {
+        border: 3px solid #00ff00;
+        color: #00ff00;
+    }
+
+    .feedback.error {
+        border: 3px solid #ff0000;
+        color: #ff0000;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
         .ingredient-grid {
-            position: absolute;
-            bottom: 25%;
-            left: 15%;
-            width: 70%;
-            height: 15%;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 8px;
-            z-index: 1000;
+            bottom: 20%;
+            left: 10%;
+            width: 80%;
+            height: 18%;
+            gap: 5px;
         }
-
-        .ingredient-btn {
-            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
-            border: 3px solid #999;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
+        
         .ingredient-btn img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
+            width: 60px; /* Adjusted for smaller screens */
+            height: 60px; /* Adjusted for smaller screens */
         }
-
-        .ingredient-btn:hover {
-            background: linear-gradient(145deg, #ffffff, #f0f0f0);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        .ingredient-btn img[alt="Cherry"] {
+            width: 40px; /* Smaller cherry for smaller screens */
+            height: 40px; /* Smaller cherry for smaller screens */
         }
-
-        .ingredient-btn.selected {
-            background: linear-gradient(145deg, #ffb3ff, #ff99ff);
-            border-color: #ff69b4;
-            box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+        
+        .conveyor-stations {
+            left: 10%;
+            width: 80%;
+            height: 25%; /* Adjusted for smaller screens */
         }
-
-        /* Control Buttons */
-        .control-buttons {
-            position: absolute;
-            bottom: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-            z-index: 1000;
+        
+        .order-display {
+            width: 20%; /* Increased width for better visibility */
+            height: 28%; /* Increased height for better visibility */
         }
-
-        .control-btn {
-            background: linear-gradient(145deg, #da70d6, #ba55d3);
-            border: 2px solid #ff69b4;
-            border-radius: 6px;
-            color: #ffffff;
-            font-family: 'VT323', monospace;
-            font-size: 14px;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 3px 0 #8b008b;
+        
+        .dessert-layer {
+            width: 70px; /* Adjusted for smaller screens */
+            height: 55px; /* Adjusted for smaller screens */
+            margin-top: -20px; /* Adjusted for smaller screens */
         }
-
-        .control-btn:hover {
-            background: linear-gradient(145deg, #ba55d3, #da70d6);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 0 #8b008b;
+        .dessert-layer.topping-layer {
+            margin-top: -10px; /* Adjusted for smaller screens */
         }
-
-        .control-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 0 #8b008b;
+        
+        .order-item {
+            width: 60px; /* Adjusted for smaller screens */
+            height: 45px; /* Adjusted for smaller screens */
+            margin-top: -20px; /* Adjusted for smaller screens */
         }
-
-        .control-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            opacity: 0.6;
+        .order-item.topping-layer {
+            margin-top: -8px; /* Adjusted for smaller screens */
         }
-
-        /* Game Over Modal */
-        .game-over {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(145deg, #4a2c5a, #3a1e4a);
-            border: 4px solid #ba55d3;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 0 25px rgba(186, 85, 211, 0.6);
-            z-index: 2000;
-            display: none;
-        }
-
-        .game-over h2 {
-            color: #da70d6;
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-
-        .game-over p {
-            font-size: 14px;
-            margin-bottom: 6px;
-        }
-
-        /* Feedback Messages */
-        .feedback {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.95);
-            color: #ffffff;
-            padding: 12px 25px;
-            border-radius: 6px;
-            font-size: 16px;
-            z-index: 1500;
-            display: none;
-            text-align: center;
-        }
-
-        .feedback.success {
-            border: 3px solid #00ff00;
-            color: #00ff00;
-        }
-
-        .feedback.error {
-            border: 3px solid #ff0000;
-            color: #ff0000;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .ingredient-grid {
-                bottom: 20%;
-                left: 10%;
-                width: 80%;
-                height: 18%;
-                gap: 5px;
-            }
-            
-            .ingredient-btn img {
-                width: 35px;
-                height: 35px;
-            }
-            
-            .conveyor-stations {
-                left: 10%;
-                width: 80%;
-            }
-            
-            .order-display {
-                width: 15%;
-                height: 18%;
-            }
-            
-            .dessert-layer {
-                width: 30px;
-                height: 30px;
-            }
-            
-            .order-item {
-                width: 25px;
-                height: 25px;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <!-- Kitchen Background -->
@@ -526,15 +531,15 @@
         </div>
     </div>
 
-    <!-- Conveyor Controls -->
-    <div class="conveyor-controls">
+    <!-- Conveyor Controls - REMOVED -->
+    <!-- <div class="conveyor-controls">
         <button class="move-btn" id="move-left" onclick="moveConveyor('left')">←</button>
         <button class="move-btn" id="move-right" onclick="moveConveyor('right')">→</button>
-    </div>
+    </div> -->
 
     <!-- Ingredient Selection Grid -->
     <div class="ingredient-grid" id="ingredient-grid">
-        <!-- Column 1: Containers -->
+        <!-- Row 1 -->
         <div class="ingredient-btn" data-type="container" data-id="1">
             <img src="./assets/cone.png" alt="Cone">
         </div>
@@ -542,7 +547,7 @@
             <img src="./assets/vanilla.png" alt="Vanilla">
         </div>
         <div class="ingredient-btn" data-type="scoop2" data-id="1">
-            <img src="./assets/mango.png" alt="Mango">
+            <img src="./assets/black-currant.png" alt="Black-currant">
         </div>
         <div class="ingredient-btn" data-type="topping" data-id="1">
             <img src="./assets/sprinkles.png" alt="Sprinkles">
@@ -553,10 +558,10 @@
             <img src="./assets/cup.png" alt="Cup">
         </div>
         <div class="ingredient-btn" data-type="scoop1" data-id="2">
-            <img src="./assets/vanilla.png" style="filter: hue-rotate(30deg);" alt="Chocolate">
+            <img src="./assets/chocolate.png"  alt="Chocolate">
         </div>
         <div class="ingredient-btn" data-type="scoop2" data-id="2">
-            <img src="./assets/mango.png" style="filter: hue-rotate(30deg);" alt="Orange">
+            <img src="./assets/mango.png" alt="Mango">
         </div>
         <div class="ingredient-btn" data-type="topping" data-id="2">
             <img src="./assets/chocochips.png" alt="Choco Chips">
@@ -567,13 +572,13 @@
             <img src="./assets/glass.png" alt="Glass">
         </div>
         <div class="ingredient-btn" data-type="scoop1" data-id="3">
-            <img src="./assets/vanilla.png" style="filter: hue-rotate(270deg);" alt="Black Currant">
+            <img src="./assets/orange.png" alt="Orange">
         </div>
         <div class="ingredient-btn" data-type="scoop2" data-id="3">
             <img src="./assets/mint.png" alt="Mint">
         </div>
         <div class="ingredient-btn" data-type="topping" data-id="3">
-            <img src="./assets/sprinkles.png" style="filter: hue-rotate(180deg);" alt="Cherry">
+            <img src="./assets/cherry.png" alt="Cherry">
         </div>
     </div>
 
@@ -609,20 +614,20 @@
 
         const scoop1 = [
             { id: 1, image: './assets/vanilla.png', type: 'vanilla' },
-            { id: 2, image: './assets/vanilla.png', type: 'chocolate', filter: 'hue-rotate(30deg)' },
-            { id: 3, image: './assets/vanilla.png', type: 'black currant', filter: 'hue-rotate(270deg)' }
+            { id: 2, image: './assets/chocolate.png', type: 'chocolate' },
+            { id: 3, image: './assets/orange.png', type: 'orange' }
         ];
 
         const scoop2 = [
-            { id: 1, image: './assets/mango.png', type: 'mango' },
-            { id: 2, image: './assets/mango.png', type: 'orange', filter: 'hue-rotate(30deg)' },
+            { id: 1, image: './assets/black-currant.png', type: 'black currant' },
+            { id: 2, image: './assets/mango.png', type: 'mango' },
             { id: 3, image: './assets/mint.png', type: 'mint' }
         ];
 
         const toppings = [
             { id: 1, image: './assets/sprinkles.png', type: 'sprinkles' },
             { id: 2, image: './assets/chocochips.png', type: 'choco chips' },
-            { id: 3, image: './assets/sprinkles.png', type: 'cherry', filter: 'hue-rotate(180deg)' }
+            { id: 3, image: './assets/cherry.png', type: 'cherry' }
         ];
 
         // Sample Orders
@@ -661,7 +666,6 @@
             generateNewOrder();
             startTimer();
             updateConveyorDisplay();
-            updateIngredientVisibility();
             
             document.querySelectorAll('.ingredient-btn').forEach(btn => {
                 btn.addEventListener('click', selectIngredient);
@@ -704,14 +708,14 @@
             
             // Topping (top)
             const toppingDiv = document.createElement('div');
-            toppingDiv.className = 'order-item';
+            toppingDiv.className = 'order-item topping-layer'; /* Added topping-layer class */
             const toppingItem = toppings.find(t => t.id === currentOrder.topping);
             toppingDiv.style.backgroundImage = `url('${toppingItem.image}')`;
             if (toppingItem.filter) toppingDiv.style.filter = toppingItem.filter;
             layers.push(toppingDiv);
             
             // Scoop2
-            const scoop2Div = document.createElement('div');
+            const scoop2Div = document.createElement('div'); /* Corrected variable name */
             scoop2Div.className = 'order-item';
             const scoop2Item = scoop2.find(s => s.id === currentOrder.scoop2);
             scoop2Div.style.backgroundImage = `url('${scoop2Item.image}')`;
@@ -719,7 +723,7 @@
             layers.push(scoop2Div);
             
             // Scoop1
-            const scoop1Div = document.createElement('div');
+            const scoop1Div = document.createElement('div'); /* Corrected variable name */
             scoop1Div.className = 'order-item';
             const scoop1Item = scoop1.find(s => s.id === currentOrder.scoop1);
             scoop1Div.style.backgroundImage = `url('${scoop1Item.image}')`;
@@ -755,27 +759,26 @@
             }
             conveyorStations[currentStation][type] = id;
             
-            // Progressive selection logic
-            updateIngredientVisibility();
             updateConveyorDisplay();
         }
 
-        function moveConveyor(direction) {
-            if (direction === 'left' && currentStation > 0) {
-                currentStation--;
-            } else if (direction === 'right' && currentStation < 4) {
-                currentStation++;
-            }
+        // Removed moveConveyor function as per user request
+        // function moveConveyor(direction) {
+        //     if (direction === 'left' && currentStation > 0) {
+        //         currentStation--;
+        //     } else if (direction === 'right' && currentStation < 4) {
+        //         currentStation++;
+        //     }
             
-            updateConveyorDisplay();
-            updateMoveButtons();
-            updateIngredientVisibility();
-        }
+        //     updateConveyorDisplay();
+        //     updateMoveButtons();
+        // }
 
-        function updateMoveButtons() {
-            document.getElementById('move-left').disabled = currentStation === 0;
-            document.getElementById('move-right').disabled = currentStation === 4;
-        }
+        // Removed updateMoveButtons function as per user request
+        // function updateMoveButtons() {
+        //     document.getElementById('move-left').disabled = currentStation === 0;
+        //     document.getElementById('move-right').disabled = currentStation === 4;
+        // }
 
         function updateConveyorDisplay() {
             // Update active station highlight
@@ -801,6 +804,9 @@
                         if (station[layerType]) {
                             const layerDiv = document.createElement('div');
                             layerDiv.className = 'dessert-layer';
+                            if (layerType === 'topping') { /* Added topping-layer class */
+                                layerDiv.classList.add('topping-layer');
+                            }
                             
                             let itemData;
                             switch(layerType) {
@@ -828,7 +834,8 @@
                 }
             });
             
-            updateMoveButtons();
+            // Removed call to updateMoveButtons as per user request
+            // updateMoveButtons();
         }
 
         function serveDessert() {
@@ -933,29 +940,6 @@
                 startTimer();
             }
         });
-
-        function updateIngredientVisibility() {
-            const currentDessert = conveyorStations[currentStation] || {};
-            
-            // Show/hide ingredient categories based on selection progress
-            document.querySelectorAll('.ingredient-btn').forEach(btn => {
-                const type = btn.dataset.type;
-                
-                if (type === 'container') {
-                    // Containers always visible
-                    btn.style.display = 'flex';
-                } else if (type === 'scoop1') {
-                    // Scoop1 visible only if container selected
-                    btn.style.display = currentDessert.container ? 'flex' : 'none';
-                } else if (type === 'scoop2') {
-                    // Scoop2 visible only if container and scoop1 selected
-                    btn.style.display = (currentDessert.container && currentDessert.scoop1) ? 'flex' : 'none';
-                } else if (type === 'topping') {
-                    // Toppings visible only if container, scoop1, and scoop2 selected
-                    btn.style.display = (currentDessert.container && currentDessert.scoop1 && currentDessert.scoop2) ? 'flex' : 'none';
-                }
-            });
-        }
     </script>
 </body>
 </html>
