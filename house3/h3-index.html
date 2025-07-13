@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Face Factory</title>
+  <link rel="stylesheet" href="h3-styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="../index.html" class="home-button">Home</a>
+  <div class="background">
+
+    <header class="game-header">
+      <h1>FACE FACTORY</h1>
+      <button class="info-toggle" onclick="toggleInstructions()">How to Play?</button>
+    </header>
+
+    <!-- instructions  -->
+    <div id="instructions" class="instructions hidden">
+      <h3>How to Play</h3>
+      <ul>
+        <li>The target robot face is hidden.</li>
+        <li>Cycle through Eyes, Nose, and Mouth until you match the hidden target.</li>
+        <li>After each guess, you'll see which feature(s) are correct.</li>
+        <li>Your goal is to match the face in the fewest turns!</li>
+      </ul>
+    </div>
+
+    <div class="game-layout">
+
+      <!-- space for target robot -->
+      <div class="robot-section">
+        <div class="robot-box">
+          <h2>Target Face</h2>
+          <div class="robot" id="target-robot">
+            <img src="assets/robotbase.png" class="robot-base" />
+            <img id="target-eyes" class="feature eyes" style="visibility: hidden;" />
+            <img id="target-nose" class="feature nose" style="visibility: hidden;" />
+            <img id="target-mouth" class="feature mouth" style="visibility: hidden;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- player robo and control buttons -->
+      <div class="robot-section horizontal-layout">
+        <div class="robot-box">
+          <h2>Your Robot</h2>
+          <div class="robot" id="player-robot">
+            <img src="assets/robotbase.png" class="robot-base" />
+            <img id="eyes" class="feature eyes" />
+            <img id="nose" class="feature nose" />
+            <img id="mouth" class="feature mouth" />
+          </div>
+        </div>
+
+        <!-- button placement -->
+        <div class="side-controls">
+          <div class="control-group">
+            <div class="control">
+              <button onclick="prev('eyes')">◀ Eyes</button>
+              <button onclick="next('eyes')">Eyes ▶</button>
+            </div>
+            <div class="control">
+              <button onclick="prev('nose')">◀ Nose</button>
+              <button onclick="next('nose')">Nose ▶</button>
+            </div>
+            <div class="control">
+              <button onclick="prev('mouth')">◀ Mouth</button>
+              <button onclick="next('mouth')">Mouth ▶</button>
+            </div>
+          </div>
+          <button class="check-btn" onclick="checkMatch()">CHECK MATCH</button>
+          <!-- reset button -->
+          <button class="reset-btn" onclick="resetGame()">RESET GAME</button>
+          <div id="result" class="result"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script src="h3-script.js"></script>
+  <script>
+    function toggleInstructions() {
+      const instructions = document.getElementById('instructions');
+      instructions.classList.toggle('hidden');
+    }
+    <!-- WIN OVERLAY -->
+  </script>
+  <div id="win-overlay" class="win-overlay hidden">
+  <div class="win-message">
+    <h2>YOU WIN!</h2>
+    <p id="win-turns">You took X turns.</p>
+    <button onclick="resetGame()">Play Again</button>
+  </div>
+</div>
+</body>
+</html>
