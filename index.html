@@ -63,11 +63,17 @@
     <div id="description"></div>
     <div class="background"><img src="./bg.jpg" /></div>
     <div class="house" style="top:100px;" onclick="openMatchingGame()"></div>
-    <div class="house" style="left:520px; top: 200px; width: 500px;"></div>
-    <div class="house" style="right: 0; top: 100px;"></div>
+    <div class="house" style="left:520px; top: 200px; width: 500px;" onclick="openIceCreameGame()"></div>
+    <div class="house" style="right: 0; top: 100px;" onclick="openRobotGame()"></div>
     <script>
         function openMatchingGame() {
             window.location.href = "./house1/h1-index.html";
+        }
+        function openIceCreameGame() {
+            window.location.href = "./house2/h2-index.html";
+        }
+        function openRobotGame() {
+            window.location.href = "./house3/h3-index.html";
         }
         const typeText = document.getElementById("description");
         const text = "Click on the house to enter!";

@@ -7,7 +7,7 @@ const containers = [
 const scoop1 = [
   { id: 1, image: "./assets/vanilla.png", type: "vanilla" },
   { id: 2, image: "./assets/chocolate.png", type: "chocolate" },
-  { id: 3, image: "./assets/orange.png", type: "orange" },
+  { id: 3, image: "./assets/strawberry.png", type: "strawberry" },
 ];
 
 const scoop2 = [
