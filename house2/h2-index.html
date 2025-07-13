@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake Factory - House 2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        body {
+            font-family: "VT323", monospace;
+            font-weight: 400;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            background: linear-gradient(180deg, #ff9999 0%, #ffb3b3 50%, #ff8080 100%);
+        }
+
+        /* Kitchen Background Recreation */
+        .kitchen-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Top Wall */
+        .top-wall {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 35%;
+            background: linear-gradient(180deg, #ff9999 0%, #ffb3b3 100%);
+            border-bottom: 3px solid #666;
+        }
+
+        /* Conveyor Belt */
+        .conveyor-belt {
+            position: absolute;
+            top: 35%;
+            left: 0;
+            width: 100%;
+            height: 25%;
+            background: linear-gradient(180deg, #888 0%, #666 50%, #444 100%);
+            border-top: 2px solid #aaa;
+            border-bottom: 2px solid #222;
+        }
+
+        .conveyor-track {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: repeating-linear-gradient(90deg, #333 0px, #333 20px, #555 20px, #555 40px);
+            transform: translateY(-50%);
+        }
+
+        /* Bottom Control Area */
+        .control-area {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
+            border-top: 3px solid #999;
+        }
+
+        /* Checkered Floor */
+        .checkered-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15%;
+            background-image: 
+                linear-gradient(45deg, #000 25%, transparent 25%), 
+                linear-gradient(-45deg, #000 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #000 75%), 
+                linear-gradient(-45deg, transparent 75%, #000 75%);
+            background-size: 30px 30px;
+            background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(145deg, #da70d6, #ba55d3);
+            border: 2px solid #ff69b4;
+            border-radius: 6px;
+            color: #ffffff;
+            font-family: 'VT323', monospace;
+            font-size: 12px;
+            font-weight: 400;
+            padding: 5px 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 0 #8b008b;
+            z-index: 1000;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(145deg, #ba55d3, #da70d6);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 0 #8b008b;
+        }
+
+        /* Game Stats Panel */
+        .stats-panel {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ffff;
+            border-radius: 6px;
+            padding: 8px;
+            color: #ffffff;
+            font-size: 12px;
+            z-index: 1000;
+            min-width: 120px;
+        }
+
+        .stat-item {
+            margin-bottom: 3px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Order Display - Left Monitor */
+        .order-display {
+            position: absolute;
+            top: 8%;
+            left: 2%;
+            width: 12%;
+            height: 20%;
+            background: linear-gradient(145deg, #e6e6ff, #ccccff);
+            border: 3px solid #4444aa;
+            border-radius: 8px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .order-title {
+            color: #000080;
+            font-size: 10px;
+            margin-bottom: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .order-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: flex-end;
+            gap: 0;
+            position: relative;
+        }
+
+        .order-item {
+            width: 35px;
+            height: 35px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+        }
+
+        /* Conveyor Work Stations */
+        .conveyor-stations {
+            position: absolute;
+            top: 37%;
+            left: 15%;
+            width: 70%;
+            height: 20%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .work-station {
+            width: 18%;
+            height: 90%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+            padding: 5px;
+        }
+
+        .work-station.active {
+            border-color: #ff69b4;
+            background: rgba(255, 105, 180, 0.2);
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+
+        .dessert-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            gap: 0;
+            position: relative;
+        }
+
+        .dessert-layer {
+            width: 40px;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Conveyor Controls */
+        .conveyor-controls {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .move-btn {
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            border: 3px solid #2E7D32;
+            border-radius: 50%;
+            color: #ffffff;
+            font-family: 'VT323', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #1B5E20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .move-btn:hover {
+            background: linear-gradient(145deg, #45a049, #4CAF50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 0 #1B5E20;
+        }
+
+        .move-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 0 #1B5E20;
+        }
+
+        .move-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.6;
+            transform: none;
+            box-shadow: 0 2px 0 #333;
+        }
+
+        /* Ingredient Selection Grid */
+        .ingredient-grid {
+            position: absolute;
+            bottom: 25%;
+            left: 15%;
+            width: 70%;
+            height: 15%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .ingredient-btn {
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+            border: 3px solid #999;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .ingredient-btn img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .ingredient-btn:hover {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .ingredient-btn.selected {
+            background: linear-gradient(145deg, #ffb3ff, #ff99ff);
+            border-color: #ff69b4;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+        }
+
+        /* Control Buttons */
+        .control-buttons {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .control-btn {
+            background: linear-gradient(145deg, #da70d6, #ba55d3);
+            border: 2px solid #ff69b4;
+            border-radius: 6px;
+            color: #ffffff;
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 0 #8b008b;
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(145deg, #ba55d3, #da70d6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 0 #8b008b;
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 0 #8b008b;
+        }
+
+        .control-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Game Over Modal */
+        .game-over {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(145deg, #4a2c5a, #3a1e4a);
+            border: 4px solid #ba55d3;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(186, 85, 211, 0.6);
+            z-index: 2000;
+            display: none;
+        }
+
+        .game-over h2 {
+            color: #da70d6;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .game-over p {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        /* Feedback Messages */
+        .feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: #ffffff;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 16px;
+            z-index: 1500;
+            display: none;
+            text-align: center;
+        }
+
+        .feedback.success {
+            border: 3px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .feedback.error {
+            border: 3px solid #ff0000;
+            color: #ff0000;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .ingredient-grid {
+                bottom: 20%;
+                left: 10%;
+                width: 80%;
+                height: 18%;
+                gap: 5px;
+            }
+            
+            .ingredient-btn img {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .conveyor-stations {
+                left: 10%;
+                width: 80%;
+            }
+            
+            .order-display {
+                width: 15%;
+                height: 18%;
+            }
+            
+            .dessert-layer {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .order-item {
+                width: 25px;
+                height: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Kitchen Background -->
+    <div class="kitchen-bg">
+        <div class="top-wall"></div>
+        <div class="conveyor-belt">
+            <div class="conveyor-track"></div>
+        </div>
+        <div class="control-area"></div>
+        <div class="checkered-floor"></div>
+    </div>
+
+    <a href="index.html" class="back-btn">← Home</a>
+
+    <!-- Game Stats -->
+    <div class="stats-panel">
+        <div class="stat-item">
+            <span>Score:</span>
+            <span id="score">0</span>
+        </div>
+        <div class="stat-item">
+            <span>Orders:</span>
+            <span id="orders-completed">0</span>
+        </div>
+        <div class="stat-item">
+            <span>Time:</span>
+            <span id="timer">00:00</span>
+        </div>
+        <div class="stat-item">
+            <span>Level:</span>
+            <span id="level">1</span>
+        </div>
+    </div>
+
+    <!-- Order Display -->
+    <div class="order-display">
+        <div class="order-title">TARGET ORDER</div>
+        <div class="order-stack" id="target-order"></div>
+    </div>
+
+    <!-- Conveyor Stations -->
+    <div class="conveyor-stations">
+        <div class="work-station" id="station-0">
+            <div class="dessert-stack" id="stack-0"></div>
+        </div>
+        <div class="work-station" id="station-1">
+            <div class="dessert-stack" id="stack-1"></div>
+        </div>
+        <div class="work-station active" id="station-2">
+            <div class="dessert-stack" id="stack-2"></div>
+        </div>
+        <div class="work-station" id="station-3">
+            <div class="dessert-stack" id="stack-3"></div>
+        </div>
+        <div class="work-station" id="station-4">
+            <div class="dessert-stack" id="stack-4"></div>
+        </div>
+    </div>
+
+    <!-- Conveyor Controls -->
+    <div class="conveyor-controls">
+        <button class="move-btn" id="move-left" onclick="moveConveyor('left')">←</button>
+        <button class="move-btn" id="move-right" onclick="moveConveyor('right')">→</button>
+    </div>
+
+    <!-- Ingredient Selection Grid -->
+    <div class="ingredient-grid" id="ingredient-grid">
+        <!-- Column 1: Containers -->
+        <div class="ingredient-btn" data-type="container" data-id="1">
+            <img src="./assets/cone.png" alt="Cone">
+        </div>
+        <div class="ingredient-btn" data-type="scoop1" data-id="1">
+            <img src="./assets/vanilla.png" alt="Vanilla">
+        </div>
+        <div class="ingredient-btn" data-type="scoop2" data-id="1">
+            <img src="./assets/mango.png" alt="Mango">
+        </div>
+        <div class="ingredient-btn" data-type="topping" data-id="1">
+            <img src="./assets/sprinkles.png" alt="Sprinkles">
+        </div>
+        
+        <!-- Row 2 -->
+        <div class="ingredient-btn" data-type="container" data-id="2">
+            <img src="./assets/cup.png" alt="Cup">
+        </div>
+        <div class="ingredient-btn" data-type="scoop1" data-id="2">
+            <img src="./assets/vanilla.png" style="filter: hue-rotate(30deg);" alt="Chocolate">
+        </div>
+        <div class="ingredient-btn" data-type="scoop2" data-id="2">
+            <img src="./assets/mango.png" style="filter: hue-rotate(30deg);" alt="Orange">
+        </div>
+        <div class="ingredient-btn" data-type="topping" data-id="2">
+            <img src="./assets/chocochips.png" alt="Choco Chips">
+        </div>
+        
+        <!-- Row 3 -->
+        <div class="ingredient-btn" data-type="container" data-id="3">
+            <img src="./assets/glass.png" alt="Glass">
+        </div>
+        <div class="ingredient-btn" data-type="scoop1" data-id="3">
+            <img src="./assets/vanilla.png" style="filter: hue-rotate(270deg);" alt="Black Currant">
+        </div>
+        <div class="ingredient-btn" data-type="scoop2" data-id="3">
+            <img src="./assets/mint.png" alt="Mint">
+        </div>
+        <div class="ingredient-btn" data-type="topping" data-id="3">
+            <img src="./assets/sprinkles.png" style="filter: hue-rotate(180deg);" alt="Cherry">
+        </div>
+    </div>
+
+    <!-- Control Buttons -->
+    <div class="control-buttons">
+        <button class="control-btn" onclick="clearDessert()">Clear</button>
+        <button class="control-btn" onclick="serveDessert()">Serve</button>
+        <button class="control-btn" onclick="skipOrder()">Skip</button>
+        <button class="control-btn" onclick="newGame()">New Game</button>
+    </div>
+
+    <!-- Feedback Messages -->
+    <div class="feedback" id="feedback"></div>
+
+    <!-- Game Over Modal -->
+    <div class="game-over" id="game-over">
+        <h2>Game Over!</h2>
+        <p>Final Score: <span id="final-score">0</span></p>
+        <p>Orders Completed: <span id="final-orders">0</span></p>
+        <p>Time Played: <span id="final-time">00:00</span></p>
+        <br>
+        <button class="control-btn" onclick="newGame()">Play Again</button>
+        <button class="control-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+
+    <script>
+        // Game Data
+        const containers = [
+            { id: 1, image: './assets/cone.png', type: 'cone' },
+            { id: 2, image: './assets/cup.png', type: 'cup' },
+            { id: 3, image: './assets/glass.png', type: 'glass' }
+        ];
+
+        const scoop1 = [
+            { id: 1, image: './assets/vanilla.png', type: 'vanilla' },
+            { id: 2, image: './assets/vanilla.png', type: 'chocolate', filter: 'hue-rotate(30deg)' },
+            { id: 3, image: './assets/vanilla.png', type: 'black currant', filter: 'hue-rotate(270deg)' }
+        ];
+
+        const scoop2 = [
+            { id: 1, image: './assets/mango.png', type: 'mango' },
+            { id: 2, image: './assets/mango.png', type: 'orange', filter: 'hue-rotate(30deg)' },
+            { id: 3, image: './assets/mint.png', type: 'mint' }
+        ];
+
+        const toppings = [
+            { id: 1, image: './assets/sprinkles.png', type: 'sprinkles' },
+            { id: 2, image: './assets/chocochips.png', type: 'choco chips' },
+            { id: 3, image: './assets/sprinkles.png', type: 'cherry', filter: 'hue-rotate(180deg)' }
+        ];
+
+        // Sample Orders
+        const orders = [
+            { container: 1, scoop1: 1, scoop2: 1, topping: 1 },
+            { container: 2, scoop1: 2, scoop2: 2, topping: 2 },
+            { container: 3, scoop1: 3, scoop2: 3, topping: 3 },
+            { container: 1, scoop1: 1, scoop2: 2, topping: 1 },
+            { container: 2, scoop1: 3, scoop2: 1, topping: 2 },
+            { container: 3, scoop1: 2, scoop2: 3, topping: 3 },
+            { container: 1, scoop1: 2, scoop2: 1, topping: 3 },
+            { container: 2, scoop1: 1, scoop2: 3, topping: 1 },
+        ];
+
+        // Game State
+        let currentOrder = {};
+        let score = 0;
+        let ordersCompleted = 0;
+        let level = 1;
+        let gameTime = 0;
+        let gameInterval;
+        let orderIndex = 0;
+        let currentStation = 2;
+        let conveyorStations = [{}, {}, {}, {}, {}];
+
+        function initGame() {
+            score = 0;
+            ordersCompleted = 0;
+            level = 1;
+            gameTime = 0;
+            orderIndex = 0;
+            currentStation = 2;
+            conveyorStations = [{}, {}, {}, {}, {}];
+            
+            updateDisplay();
+            generateNewOrder();
+            startTimer();
+            updateConveyorDisplay();
+            updateIngredientVisibility();
+            
+            document.querySelectorAll('.ingredient-btn').forEach(btn => {
+                btn.addEventListener('click', selectIngredient);
+            });
+        }
+
+        function startTimer() {
+            clearInterval(gameInterval);
+            gameInterval = setInterval(() => {
+                gameTime++;
+                updateDisplay();
+            }, 1000);
+        }
+
+        function generateNewOrder() {
+            if (orderIndex >= orders.length) {
+                orderIndex = 0;
+                level++;
+                shuffleArray(orders);
+            }
+            
+            currentOrder = { ...orders[orderIndex] };
+            orderIndex++;
+            displayOrder();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function displayOrder() {
+            const orderDisplay = document.getElementById('target-order');
+            orderDisplay.innerHTML = '';
+            
+            // Create stacked order display (TOP TO BOTTOM: topping, scoop2, scoop1, container)
+            const layers = [];
+            
+            // Topping (top)
+            const toppingDiv = document.createElement('div');
+            toppingDiv.className = 'order-item';
+            const toppingItem = toppings.find(t => t.id === currentOrder.topping);
+            toppingDiv.style.backgroundImage = `url('${toppingItem.image}')`;
+            if (toppingItem.filter) toppingDiv.style.filter = toppingItem.filter;
+            layers.push(toppingDiv);
+            
+            // Scoop2
+            const scoop2Div = document.createElement('div');
+            scoop2Div.className = 'order-item';
+            const scoop2Item = scoop2.find(s => s.id === currentOrder.scoop2);
+            scoop2Div.style.backgroundImage = `url('${scoop2Item.image}')`;
+            if (scoop2Item.filter) scoop2Div.style.filter = scoop2Item.filter;
+            layers.push(scoop2Div);
+            
+            // Scoop1
+            const scoop1Div = document.createElement('div');
+            scoop1Div.className = 'order-item';
+            const scoop1Item = scoop1.find(s => s.id === currentOrder.scoop1);
+            scoop1Div.style.backgroundImage = `url('${scoop1Item.image}')`;
+            if (scoop1Item.filter) scoop1Div.style.filter = scoop1Item.filter;
+            layers.push(scoop1Div);
+            
+            // Container (bottom)
+            const containerDiv = document.createElement('div');
+            containerDiv.className = 'order-item';
+            containerDiv.style.backgroundImage = `url('${containers.find(c => c.id === currentOrder.container).image}')`;
+            layers.push(containerDiv);
+            
+            // Add layers to display
+            layers.forEach(layer => orderDisplay.appendChild(layer));
+        }
+
+        function selectIngredient(event) {
+            const btn = event.currentTarget;
+            const type = btn.dataset.type;
+            const id = parseInt(btn.dataset.id);
+            
+            // Clear previous selection of same type
+            document.querySelectorAll(`[data-type="${type}"]`).forEach(b => {
+                b.classList.remove('selected');
+            });
+            
+            // Select current button
+            btn.classList.add('selected');
+            
+            // Add ingredient to current station
+            if (!conveyorStations[currentStation]) {
+                conveyorStations[currentStation] = {};
+            }
+            conveyorStations[currentStation][type] = id;
+            
+            // Progressive selection logic
+            updateIngredientVisibility();
+            updateConveyorDisplay();
+        }
+
+        function moveConveyor(direction) {
+            if (direction === 'left' && currentStation > 0) {
+                currentStation--;
+            } else if (direction === 'right' && currentStation < 4) {
+                currentStation++;
+            }
+            
+            updateConveyorDisplay();
+            updateMoveButtons();
+            updateIngredientVisibility();
+        }
+
+        function updateMoveButtons() {
+            document.getElementById('move-left').disabled = currentStation === 0;
+            document.getElementById('move-right').disabled = currentStation === 4;
+        }
+
+        function updateConveyorDisplay() {
+            // Update active station highlight
+            document.querySelectorAll('.work-station').forEach((station, index) => {
+                if (index === currentStation) {
+                    station.classList.add('active');
+                } else {
+                    station.classList.remove('active');
+                }
+            });
+            
+            // Update all station displays with proper stacking (topping on top, container at bottom)
+            conveyorStations.forEach((station, index) => {
+                const stackElement = document.getElementById(`stack-${index}`);
+                stackElement.innerHTML = '';
+                
+                if (station && Object.keys(station).length > 0) {
+                    // Create layers in reverse stacking order for proper visual stacking
+                    // Display order: topping, scoop2, scoop1, container (top to bottom)
+                    const layerOrder = ['topping', 'scoop2', 'scoop1', 'container'];
+            
+                    layerOrder.forEach(layerType => {
+                        if (station[layerType]) {
+                            const layerDiv = document.createElement('div');
+                            layerDiv.className = 'dessert-layer';
+                            
+                            let itemData;
+                            switch(layerType) {
+                                case 'container':
+                                    itemData = containers.find(c => c.id === station[layerType]);
+                                    break;
+                                case 'scoop1':
+                                    itemData = scoop1.find(s => s.id === station[layerType]);
+                                    break;
+                                case 'scoop2':
+                                    itemData = scoop2.find(s => s.id === station[layerType]);
+                                    break;
+                                case 'topping':
+                                    itemData = toppings.find(t => t.id === station[layerType]);
+                                    break;
+                            }
+                            
+                            if (itemData) {
+                                layerDiv.style.backgroundImage = `url('${itemData.image}')`;
+                                if (itemData.filter) layerDiv.style.filter = itemData.filter;
+                                stackElement.appendChild(layerDiv);
+                            }
+                        }
+                    });
+                }
+            });
+            
+            updateMoveButtons();
+        }
+
+        function serveDessert() {
+            const currentDessert = conveyorStations[currentStation];
+            
+            if (!currentDessert || !currentDessert.container || !currentDessert.scoop1 || !currentDessert.scoop2 || !currentDessert.topping) {
+                showFeedback('Complete the dessert first!', 'error');
+                return;
+            }
+            
+            const isMatch = 
+                currentDessert.container === currentOrder.container &&
+                currentDessert.scoop1 === currentOrder.scoop1 &&
+                currentDessert.scoop2 === currentOrder.scoop2 &&
+                currentDessert.topping === currentOrder.topping;
+            
+            if (isMatch) {
+                score += 10 + (level * 5);
+                ordersCompleted++;
+                showFeedback('Perfect! Order delivered!', 'success');
+                
+                if (ordersCompleted % 5 === 0) {
+                    level++;
+                    showFeedback(`Level Up! Now Level ${level}`, 'success');
+                }
+            } else {
+                score = Math.max(0, score - 5);
+                showFeedback('Wrong order! Try again.', 'error');
+            }
+            
+            clearDessert();
+            generateNewOrder();
+            updateDisplay();
+            
+            if (ordersCompleted >= 20) {
+                endGame();
+            }
+        }
+
+        function clearDessert() {
+            conveyorStations[currentStation] = {};
+            document.querySelectorAll('.ingredient-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            updateConveyorDisplay();
+        }
+
+        function skipOrder() {
+            score = Math.max(0, score - 3);
+            generateNewOrder();
+            clearDessert();
+            updateDisplay();
+            showFeedback('Order skipped!', 'error');
+        }
+
+        function showFeedback(message, type) {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+            feedback.style.display = 'block';
+            
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 2000);
+        }
+
+        function updateDisplay() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('orders-completed').textContent = ordersCompleted;
+            document.getElementById('level').textContent = level;
+            document.getElementById('timer').textContent = formatTime(gameTime);
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function endGame() {
+            clearInterval(gameInterval);
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-orders').textContent = ordersCompleted;
+            document.getElementById('final-time').textContent = formatTime(gameTime);
+            document.getElementById('game-over').style.display = 'block';
+        }
+
+        function newGame() {
+            document.getElementById('game-over').style.display = 'none';
+            clearInterval(gameInterval);
+            initGame();
+        }
+
+        // Initialize game when page loads
+        window.addEventListener('load', initGame);
+
+        // Handle page visibility
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(gameInterval);
+            } else {
+                startTimer();
+            }
+        });
+
+        function updateIngredientVisibility() {
+            const currentDessert = conveyorStations[currentStation] || {};
+            
+            // Show/hide ingredient categories based on selection progress
+            document.querySelectorAll('.ingredient-btn').forEach(btn => {
+                const type = btn.dataset.type;
+                
+                if (type === 'container') {
+                    // Containers always visible
+                    btn.style.display = 'flex';
+                } else if (type === 'scoop1') {
+                    // Scoop1 visible only if container selected
+                    btn.style.display = currentDessert.container ? 'flex' : 'none';
+                } else if (type === 'scoop2') {
+                    // Scoop2 visible only if container and scoop1 selected
+                    btn.style.display = (currentDessert.container && currentDessert.scoop1) ? 'flex' : 'none';
+                } else if (type === 'topping') {
+                    // Toppings visible only if container, scoop1, and scoop2 selected
+                    btn.style.display = (currentDessert.container && currentDessert.scoop1 && currentDessert.scoop2) ? 'flex' : 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
